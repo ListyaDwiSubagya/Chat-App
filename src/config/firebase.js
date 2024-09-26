@@ -1,15 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
+import { Await } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const firebaseConfig = {
-  apiKey: "",
-  authDomain: "chat-app-gs-7eb5f.firebaseapp.com",
-  projectId: "chat-app-gs-7eb5f",
-  storageBucket: "chat-app-gs-7eb5f.appspot.com",
-  messagingSenderId: "488103299151",
-  appId: "1:488103299151:web:7be18b9f3da1e70c3d823a"
+
 };
 
 // Initialize Firebase
@@ -36,8 +32,26 @@ const signUp = async (username, email, password) => {
         })
     } catch (error) {
         console.error(error)
-        toast.error(error.code)
+        toast.error(error.code.split('/')[1].split('-').join(" "));
     }
 }
 
-export {signUp}
+const login = async (email, password) => {
+    try {
+        await signInWithEmailAndPassword(auth, email, password)
+    } catch (error) {
+        console.error(error);
+        toast.error(error.code.split('/')[1].split('-').join(" "));
+    }
+}
+
+const logOut = async () => {
+    try {
+        await signOut(auth)
+    } catch (error) {
+        console.error(error);
+        toast.error(error.code.split('/')[1].split('-').join(" "));
+    }
+}
+
+export {signUp, login, logOut, auth, db}
