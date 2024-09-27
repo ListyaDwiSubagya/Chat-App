@@ -5,6 +5,7 @@ import { Await } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const firebaseConfig = {
+  apiKey: "AIzaSyCDk0i9Zlp8G7IzXIWHyvhZOXfIGWf29W8",
 
 };
 
