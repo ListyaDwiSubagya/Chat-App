@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import './CheckBox.css'
 import assets from '../../assets/assets'
+import { AppContext } from '../../context/AppContext'
 
 const CheckBox = () => {
-  return (
+
+    const {userData, messagesId, chatUser, messages, setMessagesw} = useContext(AppContext)
+    
+    const [input, setInput] = useState("");
+
+  return chatUser ? (
     <div className='chat-box'>
         <div className="chat-user">
             <img src={assets.profile_img} alt="" />
@@ -45,6 +51,10 @@ const CheckBox = () => {
         </div>
     </div>
   )
+  : <div className='chat-wellcome'>
+    <img src={assets.logo_icon} alt="" />
+    <p>Chat anytime, anywhere</p>
+  </div>
 }
 
 export default CheckBox

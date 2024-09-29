@@ -5,12 +5,7 @@ import { Await } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCDk0i9Zlp8G7IzXIWHyvhZOXfIGWf29W8",
-    authDomain: "chat-app-gs-7eb5f.firebaseapp.com",
-    projectId: "chat-app-gs-7eb5f",
-    storageBucket: "chat-app-gs-7eb5f.appspot.com",
-    messagingSenderId: "488103299151",
-    appId: "1:488103299151:web:7be18b9f3da1e70c3d823a"  
+
 };
 
 // Initialize Firebase
