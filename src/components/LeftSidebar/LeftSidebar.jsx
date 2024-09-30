@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import './LeftSidebar.css'
 import assets from '../../assets/assets'
 import { Await, useNavigate } from 'react-router-dom'
-import { arrayUnion, collection, doc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
+import { arrayUnion, collection, doc, getDoc, getDocs, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { db } from '../../config/firebase'
 import { AppContext } from '../../context/AppContext'
 import { toast } from 'react-toastify'
@@ -87,8 +87,21 @@ const LeftSidebar = () => {
     }
 
     const setChat = async (item) => {
-        setMessagesId(item.messageId);
-        setChatUser(item)
+        try {
+            setMessagesId(item.messageId);
+            setChatUser(item)
+    
+            const userChatsRef = doc(db, 'chats', userData.id);
+            const userChatsSnapshot = await getDoc(userChatsRef);
+            const userChatData = userChatsSnapshot.data();
+            const chatIndex = userChatData.chatData.findIndex((c) => c.messageId === item.messageId);
+            userChatData.chatData[chatIndex].messageSeen = true;
+            await updateDoc(userChatsRef, {
+                chatData:userChatData.chatData
+            })
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
   return (
@@ -117,7 +130,7 @@ const LeftSidebar = () => {
                 <p>{user.name}</p>
             </div>
             : chatData.map((item, index)=> (
-                <div onClick={() => setChat(item)} key={index} className="friends">
+                <div onClick={() => setChat(item)} key={index} className={`friends ${item.messageSeen || item.messageId === messagesId ? "" : "border"}`}>
                 <img src={item.userData.avatar} alt="" />
                 <div>
                     <p>{item.userData.name}</p>
